@@ -1,9 +1,9 @@
+// backend/controllers/authController.js
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 
-// Array to store refresh tokens
-let refreshTokens = [];
+// ... (other controller functions)
 
 // Create a new user
 const createUser = async (req, res) => {
@@ -28,7 +28,7 @@ const createUser = async (req, res) => {
   }
 };
 
-
+// Log in user
 const loginUser = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -68,12 +68,7 @@ const loginUser = async (req, res) => {
   }
 };
 
-
-
-
-
-
-// Admin-only route to get all users
+// Get all users (admin-only)
 const getAllUsers = async (req, res) => {
   try {
     // Check if the user making the request has the 'admin' role
@@ -90,6 +85,69 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+// Get user by ID
+const getUserById = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.json({ success: true, user });
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
+
+// Update user details by ID
+const updateUserById = async (req, res) => {
+  const userId = req.params.userId;
+  const { name, email, password } = req.body;
+
+  try {
+    // Hash the new password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { name, email, password: hashedPassword },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.status(200).json({ success: true, user: updatedUser });
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
+
+// Delete user by ID
+const deleteUserById = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const deletedUser = await User.findByIdAndDelete(userId);
+
+    if (!deletedUser) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.status(200).json({ success: true, user: deletedUser });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
+
 // Generate Access Token
 function generateAccessToken(user) {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
@@ -99,4 +157,7 @@ module.exports = {
   createUser,
   loginUser,
   getAllUsers,
+  getUserById,
+  updateUserById,
+  deleteUserById,
 };

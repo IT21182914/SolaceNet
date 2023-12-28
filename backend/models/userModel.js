@@ -4,12 +4,12 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   name: String,
-  password: String, // Store hashed password
+  password: String,
   email: String,
   role: {
     type: String,
-    enum: ['user', 'admin'],
-    default: 'user', // Set the default role to 'user'
+    enum: ['user', 'therapist'],
+    default: 'user',
   },
 });
 

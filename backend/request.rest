@@ -1,0 +1,27 @@
+# Registration Request
+POST http://localhost:8000/auth/register
+Content-Type: application/json
+
+{
+  "name": "YourName",
+  "email": "your.email@example.com",
+  "password": "yourpassword"
+}
+
+###
+GET http://localhost:8000/auth/users/6589da82a5f40adc5dc74278
+
+###
+PUT http://localhost:8000/auth/users/658d87ea5e2490814f9e33b4
+Content-Type: application/json
+
+{
+  "name": "UpdatedName",
+  "email": "updated.email@example.com",
+  "password": "updatedpassword"
+}
+
+###
+DELETE http://localhost:8000/auth/users/658d8529670adfb36f1d15ee
+
+
