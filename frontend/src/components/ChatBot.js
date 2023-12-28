@@ -75,7 +75,7 @@ const ChatBot = () => {
         <ChatContainer>
           <MessageList
             scrollBehavior="smooth"
-            typingIndicator={isTyping ? <TypingIndicator content="ChatGPT is typing" /> : null}
+            typingIndicator={isTyping ? <TypingIndicator content="SolaceNet is typing" /> : null}
             style={{ flexDirection: 'column-reverse' }}
           >
             {messages.map((message, i) => {

@@ -10,6 +10,19 @@ const UserDashboard = () => {
 
   return (
     <div className="flex flex-col items-center mt-8">
+      {/* Mental Health Statistics */}
+      <div className="text-blue-500 text-5xl font-bold mb-4 text-center">
+        Mental Health Statistics
+      </div>
+      <div className="text-center mb-8">
+        <p className="text-3xl">
+          1 in 5 adults experience mental illness every year. Depression is the leading cause of disability worldwide.
+        </p>
+        <p className="text-3xl">
+          Over 50% of mental illness begins by age 14.
+        </p>
+      </div>
+      <br/> <br/>
       {/* Health Chatbot Card */}
       <a
         href="#"
@@ -57,6 +70,7 @@ const UserDashboard = () => {
 
       {/* Render the ChatBot component only when showChatBot is true */}
       {showChatBot && <ChatBot />}
+      <br/> <br/>
     </div>
   );
 };
