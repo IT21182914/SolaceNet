@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import { MainContainer, ChatContainer, MessageList, Message, MessageInput, TypingIndicator } from '@chatscope/chat-ui-kit-react';
+import './ChatBot.css'; // Import your custom styles
 
 const ChatBot = () => {
   const [messages, setMessages] = useState([
     {
-      message: "Hello, I'm ChatGPT! Ask me anything!",
+      message: "Hello, I'm SolaceNet! Ask me Health Problems !",
       sentTime: "just now",
       sender: "ChatGPT"
     }
@@ -69,13 +70,13 @@ const ChatBot = () => {
   }
 
   return (
-    <div className="ChatBot" style={{ position: "fixed", bottom: 0, right: 0, width: "400px", height: "100%", boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)" }}>
+    <div className="ChatBot">
       <MainContainer>
         <ChatContainer>
           <MessageList
             scrollBehavior="smooth"
             typingIndicator={isTyping ? <TypingIndicator content="ChatGPT is typing" /> : null}
-            style={{ flexDirection: 'column-reverse' }} // Reverse the direction to show the latest message at the bottom
+            style={{ flexDirection: 'column-reverse' }}
           >
             {messages.map((message, i) => {
               return <Message key={i} model={message} />;

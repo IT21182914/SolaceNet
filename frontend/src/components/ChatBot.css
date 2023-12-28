@@ -1,0 +1,14 @@
+/* ChatBot.css */
+.ChatBot {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 450px;
+    height: 80%;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f8f8f8;
+    border-radius: 10px;
+  }
+  
+  /* Customize other styles as needed */
+  
