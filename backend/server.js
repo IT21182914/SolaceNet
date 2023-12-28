@@ -11,7 +11,7 @@ app.use(cors());
 
 // Use therapist routes
 app.use('/auth', require('./routes/authRoutes'));
-app.use('/therapist', therapistRoutes);
+app.use('/auth', therapistRoutes);
 
 mongoose.connect(process.env.ATLAS_URI, {
   useNewUrlParser: true,

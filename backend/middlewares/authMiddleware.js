@@ -1,19 +1,30 @@
-// backend/src/middleware/authMiddleware.js
-const jwt = require("jsonwebtoken");
+// authMiddleware.js
+const passport = require('passport');
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+const User = require('../models/userModel');
 
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+const jwtOptions = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: process.env.ACCESS_TOKEN_SECRET,
+};
 
-  if (token == null) return res.sendStatus(401);
+const jwtStrategy = new JwtStrategy(jwtOptions, async (payload, done) => {
+  try {
+    const user = await User.findById(payload._id);
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403);
-    req.user = user;
-    next();
-  });
-}
+    if (!user) {
+      return done(null, false);
+    }
+
+    return done(null, user);
+  } catch (error) {
+    return done(error, false);
+  }
+});
+
+passport.use(jwtStrategy);
 
 module.exports = {
-  authenticateToken,
+  authenticateJwt: passport.authenticate('jwt', { session: false }),
 };

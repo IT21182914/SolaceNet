@@ -2,6 +2,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
+const { authenticateJwt } = require('../middlewares/authMiddleware');
 
 // ... (other controller functions)
 let refreshTokens = [];
@@ -71,19 +72,24 @@ const loginUser = async (req, res) => {
 // Get all users (admin-only)
 const getAllUsers = async (req, res) => {
   try {
-    // Check if the user making the request has the 'admin' role
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ error: 'Access denied. Admin role required.' });
-    }
+    // Apply the authenticateJwt middleware here
+    authenticateJwt(req, res, async () => {
+      // Now, req.user should be available
+      // Check if the user making the request has the 'admin' or 'therapist' role
+      if (req.user.role !== 'admin' && req.user.role !== 'therapist') {
+        return res.status(403).json({ error: 'Access denied. Admin or therapist role required.' });
+      }
 
-    // Retrieve all users from the database
-    const users = await User.find();
-    res.json(users);
+      // Retrieve all users from the database
+      const users = await User.find();
+      res.json(users);
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
 };
+
 
 // Get user by ID
 const getUserById = async (req, res) => {
