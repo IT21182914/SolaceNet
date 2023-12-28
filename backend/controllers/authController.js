@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 
 // ... (other controller functions)
-
+let refreshTokens = [];
 // Create a new user
 const createUser = async (req, res) => {
   try {

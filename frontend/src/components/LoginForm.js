@@ -1,15 +1,16 @@
 // LoginForm.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
-    username: '', // Change to username
+    username: '',
     password: '',
   });
 
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,26 +22,27 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setLoading(true);
 
     try {
-      // Send login data to the backend
       const response = await axios.post('http://localhost:8000/auth/login', {
-        username: formData.username, // Change to username
+        username: formData.username,
         password: formData.password,
       });
 
-      // Check if login was successful
       if (response.status === 200) {
         console.log('User logged in successfully');
-        // You can handle success here, e.g., show a success message or redirect
+        // Handle successful login, e.g., redirect to another page
       } else {
         console.error('Failed to log in');
-        // Handle login failure
+        setError('Login failed. Please check your credentials.');
       }
     } catch (error) {
       console.error('Error during login:', error);
       setError('An error occurred during login. Please try again.');
-      // Handle other errors
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -89,8 +91,9 @@ const LoginForm = () => {
               <button
                 type="submit"
                 className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                disabled={loading}
               >
-                Login
+                {loading ? 'Logging in...' : 'Login'}
               </button>
             </form>
 
