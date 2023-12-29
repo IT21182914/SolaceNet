@@ -3,6 +3,12 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/userModel');
 
+// Import the chat routes
+const chatRoutes = require('./chatRoutes');
+
+// Use the chat routes
+router.use('/chats', chatRoutes);
+
 // Route to get all therapists
 router.get('/therapists', async (req, res) => {
   try {

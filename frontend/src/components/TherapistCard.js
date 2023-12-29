@@ -1,5 +1,6 @@
 // TherapistCard.js
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link from React Router
 import styles from './TherapistCard.module.css';
 
 const getRandomSpecialization = () => {
@@ -18,6 +19,12 @@ const TherapistCard = ({ therapist }) => {
   const { name } = therapist;
   const specialization = getRandomSpecialization();
 
+  const handleChatNow = () => {
+    // Implement the logic to initiate a chat
+    // You can redirect the user to the chat page or show a modal for chat initiation
+    // For now, let's assume the user is redirected to the chat page
+  };
+
   return (
     <div className={styles.therapistCard}>
       <div className={styles.cardHeader}>
@@ -26,10 +33,12 @@ const TherapistCard = ({ therapist }) => {
       </div>
       <div className={styles.cardBody}>
         <p>⭐⭐⭐⭐⭐</p>
-        <button className={styles.chatNowButton}>
-          <span>Chat Now</span>
-          <i className="fas fa-phone-alt"></i>
-        </button>
+        <Link to="/chat" onClick={handleChatNow}>
+          <button className={styles.chatNowButton}>
+            <span>Chat Now</span>
+            <i className="fas fa-phone-alt"></i>
+          </button>
+        </Link>
       </div>
     </div>
   );

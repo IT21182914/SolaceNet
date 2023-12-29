@@ -1,11 +1,15 @@
-// backend/server.js
 const express = require('express');
+const http = require('http');
+const socketIO = require('socket.io');
 const mongoose = require('./db/conn');
 const therapistRoutes = require('./routes/therapistRoutes');
 const cors = require('cors');
 
 const PORT = process.env.PORT || 8000;
 const app = express();
+const server = http.createServer(app);
+const io = socketIO(server);
+
 app.use(express.json());
 app.use(cors());
 
@@ -18,7 +22,23 @@ mongoose.connect(process.env.ATLAS_URI, {
   useUnifiedTopology: true,
 })
   .then(() => {
-    app.listen(PORT, () => {
+    // WebSocket connection
+    io.on('connection', (socket) => {
+      console.log('User connected:', socket.id);
+
+      // Handle chat messages
+      socket.on('send-message', (data) => {
+        // Broadcast the message to all connected clients
+        io.emit('receive-message', data);
+      });
+
+      socket.on('disconnect', () => {
+        console.log('User disconnected:', socket.id);
+      });
+    });
+
+    // Start the server
+    server.listen(PORT, () => {
       console.log(`\nServer is running on PORT: ${PORT} 🔥`);
     });
   })
