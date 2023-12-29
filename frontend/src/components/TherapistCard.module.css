@@ -5,6 +5,8 @@
   margin-bottom: 20px;
 }
 
+
+
 .therapistList h2 {
   font-size: 2.5rem; /* Increase the font size */
   color: #0043d3; /* Change the color to a preferred color */
@@ -22,6 +24,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 80%;
   max-width: 400px;
+  max-width: 50%;
   margin: auto;
 }
 
