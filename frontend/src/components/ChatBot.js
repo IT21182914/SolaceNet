@@ -64,6 +64,7 @@ const ChatBot = () => {
       "mindfulness": "Mindfulness is the practice of bringing one's attention to the present moment.",
       "handle insomnia": "Establish a regular sleep routine, avoid caffeine and electronics before bedtime, and create a comfortable sleep environment.",
       "benefits of exercise": "Exercise can improve mood, reduce stress, and contribute to overall physical and mental well-being.",
+      "exercise": "Exercise can improve mood, reduce stress, and contribute to overall physical and mental well-being.",
       "PTSD": "Post-traumatic stress disorder (PTSD) is a mental health condition that can develop after experiencing or witnessing a traumatic event.",
       "loneliness": "Connect with friends and family, engage in social activities, and consider talking to a mental health professional for support.",
       // Add more questions and answers...
