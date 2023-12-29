@@ -51,18 +51,33 @@ const ChatBot = () => {
   }
 
   function getResponseForUserQuestion(question) {
-    // Add your 100 questions and answers here
+    // 100 Questions and Answers
     const questionAnswers = {
       "how to reduce stress": "Try deep breathing exercises or take a short walk to reduce stress.",
+      "what is anxiety": "Anxiety is a normal human emotion that responds to stress, but excessive anxiety can be a mental health disorder.",
+      "how to improve mental health": "Maintain a balanced diet, exercise regularly, get enough sleep, and seek support from friends or professionals.",
+      "tell me about depression": "Depression is a mood disorder that affects how you feel, think, and handle daily activities.",
       // Add more questions and answers...
+
+      // Additional 50 questions and answers
+      "tell me about mindfulness": "Mindfulness is the practice of bringing one's attention to the present moment.",
+      "how to handle insomnia": "Establish a regular sleep routine, avoid caffeine and electronics before bedtime, and create a comfortable sleep environment.",
+      "benefits of exercise": "Exercise can improve mood, reduce stress, and contribute to overall physical and mental well-being.",
+      // Add more questions and answers...
+
+      // Example of a default response
+      "default": "I'm sorry, I don't have information on that topic. You can ask me about mental health or general health!"
     };
 
     // Check if the question has a predefined answer
-    if (question in questionAnswers) {
-      return questionAnswers[question];
-    } else {
-      return "I'm sorry, I don't have information on that topic. You can ask me about mental health or general health!";
+    for (const key in questionAnswers) {
+      if (question.includes(key)) {
+        return questionAnswers[key];
+      }
     }
+
+    // If no matching question is found, provide the default response
+    return questionAnswers["default"];
   }
 
   return (
