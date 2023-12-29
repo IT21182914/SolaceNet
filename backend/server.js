@@ -8,7 +8,13 @@ const cors = require('cors');
 const PORT = process.env.PORT || 8000;
 const app = express();
 const server = http.createServer(app);
-const io = socketIO(server);
+const io = socketIO(server, {
+  cors: {
+    origin: 'http://localhost:3000', // Replace with your frontend's origin
+    methods: ['GET', 'POST'],
+    credentials: true,
+  },
+});
 
 app.use(express.json());
 app.use(cors());
