@@ -1,3 +1,4 @@
+// frontend/src/components/ChatBot.js
 import React, { useState } from 'react';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import { MainContainer, ChatContainer, MessageList, Message, MessageInput, TypingIndicator } from '@chatscope/chat-ui-kit-react';
@@ -6,7 +7,7 @@ import './ChatBot.css'; // Import your custom styles
 const ChatBot = () => {
   const [messages, setMessages] = useState([
     {
-      message: "Hello, I'm SolaceNet! Ask me Health Problems !",
+      message: "Hello, I'm SolaceNet! Ask me Health Problems!",
       sentTime: "just now",
       sender: "ChatGPT"
     }
@@ -29,44 +30,39 @@ const ChatBot = () => {
   };
 
   async function processMessageToChatGPT(chatMessages) {
-    let apiMessages = chatMessages.map((messageObject) => {
-      let role = "";
-      if (messageObject.sender === "ChatGPT") {
-        role = "assistant";
-      } else {
-        role = "user";
-      }
-      return { role: role, content: messageObject.message }
-    });
+    const lastMessage = chatMessages[chatMessages.length - 1];
+    
+    // Add custom logic for handling mental health and general health questions
+    if (lastMessage.sender === "user") {
+      const userQuestion = lastMessage.message.toLowerCase();
+      const response = getResponseForUserQuestion(userQuestion);
 
-    const apiRequestBody = {
-      "model": "gpt-3.5-turbo",
-      "messages": [
-        {
-          "role": "system",
-          "content": "Explain things like you're talking to a software professional with 2 years of experience."
-        },
-        ...apiMessages
-      ]
+      const apiResponse = {
+        message: response,
+        sender: "ChatGPT"
+      };
+
+      // Add the assistant's response to the list
+      setMessages([...chatMessages, apiResponse]);
+
+      // Stop simulating typing
+      setIsTyping(false);
+    }
+  }
+
+  function getResponseForUserQuestion(question) {
+    // Add your 100 questions and answers here
+    const questionAnswers = {
+      "how to reduce stress": "Try deep breathing exercises or take a short walk to reduce stress.",
+      // Add more questions and answers...
     };
 
-    await fetch("https://api.openai.com/v1/chat/completions", 
-    {
-      method: "POST",
-      headers: {
-        "Authorization": "Bearer YOUR_OPENAI_API_KEY",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(apiRequestBody)
-    }).then((data) => {
-      return data.json();
-    }).then((data) => {
-      setMessages([...chatMessages, {
-        message: data.choices[0].message.content,
-        sender: "ChatGPT"
-      }]);
-      setIsTyping(false);
-    });
+    // Check if the question has a predefined answer
+    if (question in questionAnswers) {
+      return questionAnswers[question];
+    } else {
+      return "I'm sorry, I don't have information on that topic. You can ask me about mental health or general health!";
+    }
   }
 
   return (
