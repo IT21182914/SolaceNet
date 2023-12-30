@@ -1,13 +1,12 @@
-// TherapistCard.js
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styles from './TherapistCard.module.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import styles from "./TherapistCard.module.css";
 
 const getRandomSpecialization = () => {
   const specializations = [
-    'Mindfulness-Based Therapy',
-    'Cognitive Behavioral Therapy (CBT)',
-    'Family Therapy',
+    "Mindfulness-Based Therapy",
+    "Cognitive Behavioral Therapy (CBT)",
+    "Family Therapy",
     // Add more specializations as needed
   ];
 
@@ -33,7 +32,7 @@ const TherapistCard = ({ therapist }) => {
       <div className={styles.cardBody}>
         <p>⭐⭐⭐⭐⭐</p>
         {/* Use Link to navigate to the chat route */}
-        <Link to={`/chat/${_id}`} onClick={handleChatNow}>
+        <Link to={`/chat/${_id}`} onClick={() => handleChatNow(_id)}>
           <button className={styles.chatNowButton}>
             <span>Chat Now</span>
             <i className="fas fa-phone-alt"></i>

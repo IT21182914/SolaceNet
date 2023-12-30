@@ -11,17 +11,18 @@ const Chat = ({ user }) => {
   const { therapistId } = useParams();
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
+
   useEffect(() => {
     // Listen for incoming messages from the server
     socket.on('newMessage', (data) => {
       const newMessage = {
-        message: data.message,
+        message: data.content, // Change from data.message to data.content
         direction: data.sender === 'user' ? 'incoming' : 'outgoing',
         sender: data.sender,
       };
-  
+
       setMessages((prevMessages) => [...prevMessages, newMessage]);
-  
+
       // Stop simulating typing
       setIsTyping(false);
     });
@@ -38,7 +39,7 @@ const Chat = ({ user }) => {
 
     setIsTyping(true);
 
-    // Emit the user message to the server
+    // Emit the user message to the server with the correct therapist ID
     socket.emit('send-message', { content: message, room: therapistId, sender: 'user' });
   };
 

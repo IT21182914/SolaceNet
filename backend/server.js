@@ -5,7 +5,7 @@ const socketIO = require('socket.io');
 const mongoose = require('./db/conn');
 const therapistRoutes = require('./routes/therapistRoutes');
 const User = require('./models/userModel');
-const Message = require('./models/messageModel'); // Import the Message model
+const Message = require('./models/messageModel');
 const cors = require('cors');
 
 const PORT = process.env.PORT || 8000;
@@ -13,7 +13,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server, {
   cors: {
-    origin: 'http://localhost:3000', // Replace with your frontend's origin
+    origin: 'http://localhost:3000',
     methods: ['GET', 'POST'],
     credentials: true,
   },
@@ -46,7 +46,7 @@ mongoose.connect(process.env.ATLAS_URI, {
         if (room !== 'therapist-room') {
           // User is sending a message
           const user = await User.findOne({ _id: room });
-          const therapist = await User.findOne({ role: 'therapist' });
+          const therapist = await User.findOne({ _id: data.room }); // Update this line
 
           // Save the chat message for both user and therapist
           user.helpTips.push({ sender, message: content });
@@ -60,7 +60,7 @@ mongoose.connect(process.env.ATLAS_URI, {
             sender,
             content,
             timestamp: new Date(),
-            therapist: therapist._id, // Use the therapist's ID
+            therapist: therapist._id,
           });
         }
       });
