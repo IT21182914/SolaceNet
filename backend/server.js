@@ -4,6 +4,7 @@ const http = require('http');
 const socketIO = require('socket.io');
 const mongoose = require('./db/conn');
 const therapistRoutes = require('./routes/therapistRoutes');
+const authRoutes = require('./routes/authRoutes'); // Import authRoutes
 const User = require('./models/userModel');
 const Message = require('./models/messageModel');
 const cors = require('cors');
@@ -24,6 +25,9 @@ app.use(cors());
 
 // Use therapist routes
 app.use('/api', therapistRoutes);
+
+// Use authentication routes
+app.use('/auth', authRoutes);
 
 mongoose.connect(process.env.ATLAS_URI, {
   useNewUrlParser: true,
