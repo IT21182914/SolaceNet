@@ -14,12 +14,13 @@ const messageSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  chatSession: {
+  therapist: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'ChatSession', // Assuming you have a 'ChatSession' model
+    ref: 'User', // Assuming you have a 'User' model for therapists
   },
 });
 
 const Message = mongoose.model('Message', messageSchema);
 
 module.exports = Message;
+
