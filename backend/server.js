@@ -23,8 +23,7 @@ app.use(express.json());
 app.use(cors());
 
 // Use therapist routes
-app.use('/auth', require('./routes/authRoutes'));
-app.use('/api', therapistRoutes); // Corrected route path
+app.use('/api', therapistRoutes);
 
 mongoose.connect(process.env.ATLAS_URI, {
   useNewUrlParser: true,
@@ -46,7 +45,7 @@ mongoose.connect(process.env.ATLAS_URI, {
         if (room !== 'therapist-room') {
           // User is sending a message
           const user = await User.findOne({ _id: room });
-          const therapist = await User.findOne({ _id: data.room }); // Update this line
+          const therapist = await User.findOne({ _id: data.room });
 
           // Save the chat message for both user and therapist
           user.helpTips.push({ sender, message: content });

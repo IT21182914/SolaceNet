@@ -3,20 +3,14 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/userModel');
 
-// Import the chat routes
-const chatRoutes = require('./chatRoutes');
-
-// Use the chat routes
-router.use('/chats', chatRoutes);
-
 // Route to get all therapists
 router.get('/therapists', async (req, res) => {
   try {
     const therapists = await User.find({ role: 'therapist' });
-    res.json(therapists);
+    res.status(200).json(therapists);
   } catch (error) {
     console.error('Error fetching therapists:', error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
@@ -60,7 +54,5 @@ router.delete('/therapists/:therapistId', async (req, res) => {
     res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
-
-// Add more therapist routes as needed...
 
 module.exports = router;

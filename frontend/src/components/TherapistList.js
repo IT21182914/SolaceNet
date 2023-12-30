@@ -12,14 +12,15 @@ const TherapistList = () => {
 
   const fetchTherapists = async () => {
     try {
-      const response = await fetch('http://localhost:8000/auth/therapists'); // Update the URL
-
+      const response = await fetch('http://localhost:8000/api/therapists');
+  
       if (!response.ok) {
         console.error(`Error fetching therapists: ${response.status} ${response.statusText}`);
         return;
       }
-
+  
       const data = await response.json();
+      console.log('Fetched therapists:', data); // Log the data
       setTherapists(data);
     } catch (error) {
       console.error('Error fetching therapists:', error.message);

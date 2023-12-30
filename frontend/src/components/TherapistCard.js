@@ -1,3 +1,4 @@
+// TherapistCard.js
 import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./TherapistCard.module.css";
@@ -15,7 +16,7 @@ const getRandomSpecialization = () => {
 };
 
 const TherapistCard = ({ therapist }) => {
-  const { _id, name } = therapist; // Include _id in destructuring
+  const { _id, name } = therapist;
   const specialization = getRandomSpecialization();
 
   const handleChatNow = () => {
