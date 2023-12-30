@@ -2,6 +2,8 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/userModel');
+const ChatSession = require('../models/chatSessionModel');
+const Message = require('../models/messageModel');
 
 // Route to initiate a chat between a user and a therapist
 router.post('/initiate-chat', async (req, res) => {
@@ -17,17 +19,17 @@ router.post('/initiate-chat', async (req, res) => {
     }
 
     // Create a new chat session and store it in the database
-    const chatSession = {
+    const chatSession = await ChatSession.create({
       user: {
         id: user._id,
-        name: 'Anonymous User', // You can customize this as needed
+        name: 'Anonymous User',
       },
       therapist: {
         id: therapist._id,
         name: therapist.name,
       },
-      messages: [], // Initialize with an empty array of messages
-    };
+      messages: [],
+    });
 
     // Add the chat session to the user and therapist
     user.chats.push(chatSession);
@@ -62,6 +64,25 @@ router.get('/user-chats/:userId', async (req, res) => {
   }
 });
 
+// Route to get all messages for a chat session
+router.get('/chat-messages/:chatSessionId', async (req, res) => {
+  const chatSessionId = req.params.chatSessionId;
+
+  try {
+    const messages = await Message.find({ chatSession: chatSessionId });
+
+    res.status(200).json({ success: true, messages });
+  } catch (error) {
+    console.error('Error fetching chat messages:', error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+});
+
+// Route to get welcome message
+router.get('/welcome', (req, res) => {
+  res.json({ message: 'Welcome to the therapist dashboard!' });
+});
+
 // Route to get all chat sessions for a therapist
 router.get('/therapist-chats/:therapistId', async (req, res) => {
   const therapistId = req.params.therapistId;
@@ -79,7 +100,5 @@ router.get('/therapist-chats/:therapistId', async (req, res) => {
     res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
-
-// Add more chat routes as needed...
 
 module.exports = router;

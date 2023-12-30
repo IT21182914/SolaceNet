@@ -7,7 +7,7 @@ import { useParams } from 'react-router-dom';
 
 const socket = io.connect('http://localhost:8000');
 
-const Chat = ({ user }) => {
+const Chat = () => {
   const { therapistId } = useParams();
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
@@ -16,7 +16,7 @@ const Chat = ({ user }) => {
     // Listen for incoming messages from the server
     socket.on('newMessage', (data) => {
       const newMessage = {
-        message: data.content, // Change from data.message to data.content
+        content: data.content,
         direction: data.sender === 'user' ? 'incoming' : 'outgoing',
         sender: data.sender,
       };
@@ -26,11 +26,11 @@ const Chat = ({ user }) => {
       // Stop simulating typing
       setIsTyping(false);
     });
-  }, [])
+  }, []);
 
   const handleSend = (message) => {
     const newMessage = {
-      message,
+      content: message,
       direction: 'outgoing',
       sender: 'user',
     };
@@ -49,12 +49,12 @@ const Chat = ({ user }) => {
         <ChatContainer>
           <MessageList
             scrollBehavior="smooth"
-            typingIndicator={isTyping ? <TypingIndicator content="Therapist is typing" /> : null}
+            typingIndicator={isTyping && <TypingIndicator content="Therapist is typing" />}
             style={{ flexDirection: 'column-reverse' }}
           >
-            {messages.map((message, i) => {
-              return <Message key={i} model={message} />;
-            })}
+            {messages.map((message, i) => (
+              <Message key={i} model={message} />
+            ))}
           </MessageList>
           <MessageInput placeholder="Type message here" onSend={handleSend} />
         </ChatContainer>

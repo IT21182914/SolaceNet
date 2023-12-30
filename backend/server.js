@@ -24,7 +24,7 @@ app.use(cors());
 
 // Use therapist routes
 app.use('/auth', require('./routes/authRoutes'));
-app.use('/auth', therapistRoutes);
+app.use('/api', therapistRoutes); // Corrected route path
 
 mongoose.connect(process.env.ATLAS_URI, {
   useNewUrlParser: true,
@@ -90,6 +90,21 @@ mongoose.connect(process.env.ATLAS_URI, {
       } catch (error) {
         console.error('Error sending message:', error);
         res.status(500).json({ error: 'Internal server error' });
+      }
+    });
+
+    // Express route for handling fetching messages
+    app.get('/api/messages', async (req, res) => {
+      try {
+        // Fetch messages from the database or any other data source
+        // Replace the following line with your actual logic to fetch messages
+        const fetchedMessages = await Message.find(); // Example: fetching all messages
+    
+        // Respond with the fetched messages
+        res.status(200).json({ messages: fetchedMessages });
+      } catch (error) {
+        console.error('Error fetching messages:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
       }
     });
 
