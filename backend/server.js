@@ -97,19 +97,21 @@ mongoose.connect(process.env.ATLAS_URI, {
     });
 
     // Express route for handling fetching messages
-    app.get('/api/messages', async (req, res) => {
-      try {
-        // Fetch messages from the database or any other data source
-        // Replace the following line with your actual logic to fetch messages
-        const fetchedMessages = await Message.find(); // Example: fetching all messages
-    
-        // Respond with the fetched messages
-        res.status(200).json({ messages: fetchedMessages });
-      } catch (error) {
-        console.error('Error fetching messages:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
-    });
+    // Update the route for fetching messages in server.js
+app.get('/api/messages/:therapistId', async (req, res) => {
+  try {
+    const therapistId = req.params.therapistId;
+
+    // Fetch messages for the specific therapist from the database
+    const fetchedMessages = await Message.find({ therapist: therapistId });
+
+    res.status(200).json({ messages: fetchedMessages });
+  } catch (error) {
+    console.error('Error fetching messages:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
     // Start the server
     server.listen(PORT, () => {

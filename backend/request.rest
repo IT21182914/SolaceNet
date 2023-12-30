@@ -28,6 +28,6 @@ DELETE http://localhost:8000/auth/users/658d8529670adfb36f1d15ee
 GET http://localhost:8000/auth/therapists
 
 ###
-GET http://localhost:8000/api/messages
+GET http://localhost:8000/api/messages/658f747ae563dbf59ab08a07
 
 
