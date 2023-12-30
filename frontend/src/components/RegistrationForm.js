@@ -53,9 +53,10 @@ const RegistrationForm = () => {
       }
     } catch (error) {
       console.error('Error during registration:', error);
-      toast.error('An error occurred during registration. Please try again.');
+      toast.error(`An error occurred during registration: ${error.message}`);
       // Handle other errors
     }
+    
   };
 
   return (

@@ -1,0 +1,68 @@
+/* TherapistList.module.css */
+.therapistList {
+  /* Add styles for the Available Therapists heading */
+  text-align: center; /* Center the text */
+  margin-bottom: 20px;
+}
+
+.therapistList h2 {
+  font-size: 2.5rem; /* Increase the font size */
+  color: #0043d3; /* Change the color to a preferred color */
+  margin-bottom: 20px; /* Add more space below the heading */
+}
+
+/* TherapistCard.module.css */
+/* Update the styles for the therapist card as needed */
+.therapistCard {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Make the card take up the full width of the container */
+  max-width: 400px; /* Set a max-width for better readability on larger screens */
+  margin: auto;
+}
+
+.cardHeader {
+  padding: 25px;
+  border-bottom: 1px solid #ddd;
+}
+
+.cardHeader h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.cardHeader p {
+  margin: 10px 0 0;
+  color: #666;
+}
+
+.cardBody {
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardBody p {
+  margin: 0;
+}
+
+.chatNowButton {
+  background-color: #0043d3;
+  color: #fff;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.chatNowButton span {
+  margin-right: 8px;
+}

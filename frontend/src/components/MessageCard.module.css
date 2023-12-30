@@ -1,0 +1,29 @@
+/* MessageCard.module.css */
+.messageCard {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 400px;
+    max-width: 50%;
+    margin: auto;
+    padding: 15px;
+  }
+  
+  .messageCard p {
+    margin: 0;
+    margin-bottom: 10px;
+  }
+  
+  .acceptButton {
+    background-color: #0043d3;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  

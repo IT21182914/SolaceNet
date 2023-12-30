@@ -1,15 +1,21 @@
-// LoginForm.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import { jwtDecode as jwt_decode } from 'jwt-decode';
+
+
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
-    username: '', // Change to username
+    username: '',
     password: '',
   });
 
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  // Use the useNavigate hook to get the navigation function
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,29 +24,52 @@ const LoginForm = () => {
       [name]: value,
     }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setError('');
+    setLoading(true);
+  
     try {
-      // Send login data to the backend
       const response = await axios.post('http://localhost:8000/auth/login', {
-        username: formData.username, // Change to username
+        username: formData.username,
         password: formData.password,
       });
-
-      // Check if login was successful
+  
+      console.log('Login response:', response);
+  
       if (response.status === 200) {
         console.log('User logged in successfully');
-        // You can handle success here, e.g., show a success message or redirect
+  
+        if (response.data && response.data.accessToken && response.data.refreshToken) {
+          const accessToken = response.data.accessToken;
+  
+          // Decode the JWT token to extract user type
+          const decodedToken = jwt_decode(accessToken);
+          const userType = decodedToken.role;
+  
+          console.log('User Type:', userType);
+  
+          // Check if the logged-in user is a therapist or user
+          if (userType === 'therapist') {
+            // Redirect to Therapist Dashboard
+            navigate('/therapistdash');
+          } else {
+            // Redirect to User Dashboard
+            navigate('/user');
+          }
+        } else {
+          console.error('Malformed response data:', response.data);
+          setError('Login failed. Malformed response data.');
+        }
       } else {
         console.error('Failed to log in');
-        // Handle login failure
+        setError('Login failed. Please check your credentials.');
       }
     } catch (error) {
       console.error('Error during login:', error);
       setError('An error occurred during login. Please try again.');
-      // Handle other errors
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -89,8 +118,9 @@ const LoginForm = () => {
               <button
                 type="submit"
                 className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                disabled={loading}
               >
-                Login
+                {loading ? 'Logging in...' : 'Login'}
               </button>
             </form>
 
