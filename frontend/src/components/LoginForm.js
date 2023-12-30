@@ -1,7 +1,9 @@
-// LoginForm.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import { jwtDecode as jwt_decode } from 'jwt-decode';
+
+
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +14,9 @@ const LoginForm = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Use the useNavigate hook to get the navigation function
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -19,21 +24,43 @@ const LoginForm = () => {
       [name]: value,
     }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-
+  
     try {
       const response = await axios.post('http://localhost:8000/auth/login', {
         username: formData.username,
         password: formData.password,
       });
-
+  
+      console.log('Login response:', response);
+  
       if (response.status === 200) {
         console.log('User logged in successfully');
-        // Handle successful login, e.g., redirect to another page
+  
+        if (response.data && response.data.accessToken && response.data.refreshToken) {
+          const accessToken = response.data.accessToken;
+  
+          // Decode the JWT token to extract user type
+          const decodedToken = jwt_decode(accessToken);
+          const userType = decodedToken.role;
+  
+          console.log('User Type:', userType);
+  
+          // Check if the logged-in user is a therapist or user
+          if (userType === 'therapist') {
+            // Redirect to Therapist Dashboard
+            navigate('/therapistdash');
+          } else {
+            // Redirect to User Dashboard
+            navigate('/user');
+          }
+        } else {
+          console.error('Malformed response data:', response.data);
+          setError('Login failed. Malformed response data.');
+        }
       } else {
         console.error('Failed to log in');
         setError('Login failed. Please check your credentials.');

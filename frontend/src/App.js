@@ -8,6 +8,7 @@ import ChatBot from './components/ChatBot';
 import TherapistList from './components/TherapistList';
 import ChatComponent from './components/ChatComponent';
 import Chat from './components/Chat';
+import TherapistDashboard from './components/TherapistDashboard';
 
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
         <Route path="/therapist" element={<TherapistList/>} />
         <Route path="/chat" element={<ChatComponent/>} />
         <Route path="/chat/:therapistId" element={<Chat />} />
-      
+        <Route path="/therapistdash" element={<TherapistDashboard/>} />
       </Routes>
     </Router>
   );
