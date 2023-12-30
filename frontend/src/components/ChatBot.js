@@ -67,11 +67,28 @@ const ChatBot = () => {
       "exercise": "Exercise can improve mood, reduce stress, and contribute to overall physical and mental well-being.",
       "PTSD": "Post-traumatic stress disorder (PTSD) is a mental health condition that can develop after experiencing or witnessing a traumatic event.",
       "loneliness": "Connect with friends and family, engage in social activities, and consider talking to a mental health professional for support.",
+      "social anxiety": "Social anxiety is an intense fear of being judged or rejected in social situations. Remedies include gradual exposure, cognitive-behavioral therapy, and relaxation techniques.",
+      "overcome social anxiety": "To overcome social anxiety, consider exposing yourself gradually to social situations, challenging negative thoughts, and seeking support from a therapist. Progress takes time and effort.",
+      "breathing exercises for social anxiety": "Deep breathing exercises can help calm your nervous system. Practice diaphragmatic breathing for relief.",
+      "self-help for social anxiety": "Set realistic goals, practice self-compassion, and gradually face feared social situations. Learning social skills can also build confidence.",
+      "medication for social anxiety": "In some cases, medication like SSRIs or benzodiazepines may be prescribed. Consult with a mental health professional for guidance.",
+      "group therapy for social anxiety": "Group therapy provides a supportive environment to practice social skills and share experiences. It can be effective in overcoming social anxiety.",
+      "visualization techniques for social anxiety": "Visualize successful social interactions to reduce anxiety and build confidence. Imagine positive scenarios to reshape your perception.",
+      "social anxiety in children": "Social anxiety can affect children. Encourage gradual exposure, positive social interactions, and consult with a child psychologist for support.",
+      "online resources for social anxiety": "Explore online resources for self-help tips, articles, and forums. Remember to consult with a mental health professional for personalized guidance.",
+      "mindfulness for social anxiety": "Practice mindfulness to stay present in social situations. Incorporate mindfulness meditation into your routine for added benefits.",
+      "workplace social anxiety": "Manage workplace social anxiety by setting small goals, practicing assertiveness, and discussing concerns with a supervisor or using employee assistance programs (EAP).",
+      "social anxiety and dating": "Dating with social anxiety may be challenging. Take small steps, be open about your feelings, and seek support from friends or a therapist.",
+      "natural remedies for social anxiety": "Explore natural remedies like herbal supplements, yoga, or aromatherapy. Consult with a healthcare professional before trying alternative treatments.",
+      "remedies": "Explore natural remedies like herbal supplements, yoga, or aromatherapy. Consult with a healthcare professional before trying alternative treatments.",
+      "remedies for social anxiety": "Explore natural remedies like herbal supplements, yoga, or aromatherapy. Consult with a healthcare professional before trying alternative treatments.",
+      "social anxiety and alcohol": "Avoid using alcohol as a long-term solution for social anxiety. It can worsen anxiety over time. Seek healthier coping mechanisms and consider professional help.",
       // Add more questions and answers...
-
+    
       // Default response guidance
       "default": "I'm sorry, I don't have information on that specific topic. You can ask me about mental health or general health!"
     };
+    
 
     // Check if the question contains keywords and has a predefined answer
     for (const key in questionAnswers) {
