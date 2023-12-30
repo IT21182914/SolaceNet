@@ -11,6 +11,10 @@ const userSchema = new Schema({
     enum: ['user', 'therapist'],
     default: 'user',
   },
+  helpTips: {
+    type: [String], // Array of help tips provided by the therapist
+    default: [],
+  },
 });
 
 const User = mongoose.model('User', userSchema);
