@@ -1,47 +1,24 @@
 // frontend/src/components/Chat.js
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
-import {
-  MainContainer,
-  ChatContainer,
-  MessageList,
-  Message,
-  MessageInput,
-  TypingIndicator,
-} from '@chatscope/chat-ui-kit-react';
-import './Chat.css';
+import { MainContainer, ChatContainer, MessageList, Message, MessageInput, TypingIndicator } from '@chatscope/chat-ui-kit-react';
 import io from 'socket.io-client';
+import { useParams } from 'react-router-dom';
 
-const socket = io.connect('http://localhost:8000'); // Use your backend server URL
+const socket = io.connect('http://localhost:8000');
 
-const Chat = () => {
+const Chat = ({ user }) => {
+  const { therapistId } = useParams();
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
-
-  const handleSend = async (message) => {
-    const newMessage = {
-      message,
-      direction: 'outgoing',
-      sender: 'user',
-    };
-
-    const newMessages = [...messages, newMessage];
-
-    setMessages(newMessages);
-
-    setIsTyping(true);
-
-    // Emit the message to the server
-    socket.emit('send-message', { message, room: 'therapist-room' });
-  };
 
   useEffect(() => {
     // Listen for incoming messages from the server
     socket.on('receive-message', (data) => {
       const newMessage = {
         message: data.message,
-        direction: 'incoming',
-        sender: 'therapist',
+        direction: data.sender === 'user' ? 'incoming' : 'outgoing',
+        sender: data.sender,
       };
 
       setMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -51,9 +28,23 @@ const Chat = () => {
     });
   }, []);
 
+  const handleSend = (message) => {
+    const newMessage = {
+      message,
+      direction: 'outgoing',
+      sender: 'user',
+    };
+
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+
+    setIsTyping(true);
+
+    // Emit the user message to the server
+    socket.emit('send-message', { message, room: therapistId, sender: 'user' });
+  };
+
   return (
     <div className="Chat">
-      <h1>Helloooo</h1>
       <MainContainer>
         <ChatContainer>
           <MessageList
